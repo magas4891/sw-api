@@ -2,54 +2,56 @@ export default class SwapiService {
 
     _apiBase = 'https://swapi.dev/api';
 
-    async getResourse(url) {
+    async getResource(url) {
         const res = await fetch(`${this._apiBase}${url}`);
+
         if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, received ${res.status}`)
+            throw new Error(`Could not fetch ${url}` +
+                `, received ${res.status}`)
         }
         return await res.json();
     }
 
     async getAllPeople() {
-        const peopleArray = await this.getResourse(`/people/`);
-        return peopleArray.results.map((person) => this._transformPerson(person));
+        const res = await this.getResource(`/people/`);
+        return res.results.map(this._transformPerson);
     }
     async getPerson(id) {
-        const person = this.getResourse(`/people/${id}`);
+        const person = await this.getResource(`/people/${id}/`);
         return this._transformPerson(person);
     }
     async getAllPlanets() {
-        const planetArray = await this.getResourse(`/planets/`);
-        return planetArray.results.map((planet) => this._transformPlanet(planet));
+        const res = await this.getResource(`/planets/`);
+        return res.results.map(this._transformPlanet);
     }
     async getPlanet(id) {
-        const planet = await this.getResourse(`/planets/${id}`);
+        const planet = await this.getResource(`/planets/${id}/`);
         return this._transformPlanet(planet);
     }
     async getAllStarships() {
-        const starshipsArray = await this.getResourse(`/starships/`);
+        const starshipsArray = await this.getResource(`/starships/`);
         return starshipsArray.results.map((starship) => this._transformStarship(starship));
     }
     async getStarship(id) {
-        const starship = this.getResourse(`/starships/${id}`);
+        const starship = this.getResource(`/starships/${id}`);
         return this._transformStarship(starship);
     }
     async getAllFilms() {
-        const filmsArray = await this.getResourse(`/films/`);
+        const filmsArray = await this.getResource(`/films/`);
         return filmsArray.results;
     }
     async getFilms(id) {
-        return this.getResourse(`/films/${id}`);
+        return this.getResource(`/films/${id}`);
     }
     async getAllSpecies() {
-        const speciesArray = await this.getResourse(`/species/`);
+        const speciesArray = await this.getResource(`/species/`);
         return speciesArray.results;
     }
     async getSpecie(id) {
-        return this.getResourse(`/species/${id}`);
+        return this.getResource(`/species/${id}`);
     }
     async getAllVehicles() {
-        const vehiclesArray = await this.getResourse(`/vehicles/`);
+        const vehiclesArray = await this.getResource(`/vehicles/`);
         return vehiclesArray.results;
     }
     async getVehicle(id) {
@@ -61,7 +63,7 @@ export default class SwapiService {
         return item.url.match(idRegExp)[1];
     }
 
-    _transformPlanet(planet) {
+    _transformPlanet = (planet) => {
         return {
             id: this._extractId(planet),
             name: planet.name,
@@ -71,7 +73,7 @@ export default class SwapiService {
         }
     }
 
-    _transformStarship(starship) {
+    _transformStarship = (starship) => {
         return {
             id: this._extractId(starship),
             name: starship.name,
@@ -85,7 +87,7 @@ export default class SwapiService {
         }
     }
 
-    _transformPerson(person) {
+    _transformPerson = (person) => {
         return {
             id: this._extractId(person),
             name: person.name,
