@@ -2,7 +2,7 @@ export default class SwapiService {
 
     _apiBase = 'https://swapi.dev/api';
 
-    async getResource(url) {
+    getResource = async (url) => {
         const res = await fetch(`${this._apiBase}${url}`);
 
         if (!res.ok) {
@@ -10,58 +10,58 @@ export default class SwapiService {
                 `, received ${res.status}`)
         }
         return await res.json();
-    }
+    };
 
-    async getAllPeople() {
+    getAllPeople = async () => {
         const res = await this.getResource(`/people/`);
         return res.results.map(this._transformPerson);
-    }
-    async getPerson(id) {
+    };
+    getPerson = async (id) => {
         const person = await this.getResource(`/people/${id}/`);
         return this._transformPerson(person);
-    }
-    async getAllPlanets() {
+    };
+    getAllPlanets = async () => {
         const res = await this.getResource(`/planets/`);
         return res.results.map(this._transformPlanet);
-    }
-    async getPlanet(id) {
+    };
+    getPlanet = async (id) => {
         const planet = await this.getResource(`/planets/${id}/`);
         return this._transformPlanet(planet);
-    }
-    async getAllStarships() {
+    };
+    getAllStarships = async () => {
         const starshipsArray = await this.getResource(`/starships/`);
         return starshipsArray.results.map((starship) => this._transformStarship(starship));
     }
-    async getStarship(id) {
+    getStarship = async (id) => {
         const starship = this.getResource(`/starships/${id}`);
         return this._transformStarship(starship);
     }
-    async getAllFilms() {
+    getAllFilms = async () => {
         const filmsArray = await this.getResource(`/films/`);
         return filmsArray.results;
     }
-    async getFilms(id) {
+    getFilms = async (id) => {
         return this.getResource(`/films/${id}`);
     }
-    async getAllSpecies() {
+    getAllSpecies = async () => {
         const speciesArray = await this.getResource(`/species/`);
         return speciesArray.results;
     }
-    async getSpecie(id) {
+    getSpecie = async (id) => {
         return this.getResource(`/species/${id}`);
     }
-    async getAllVehicles() {
+    getAllVehicles = async () => {
         const vehiclesArray = await this.getResource(`/vehicles/`);
         return vehiclesArray.results;
     }
-    async getVehicle(id) {
+    getVehicle = async (id) => {
         return this.getResourse(`/vehicles/${id}`);
     }
 
-    _extractId(item) {
+    _extractId = (item) => {
         const idRegExp = /\/([0-9]*)\/$/;
         return item.url.match(idRegExp)[1];
-    }
+    };
 
     _transformPlanet = (planet) => {
         return {
@@ -70,8 +70,8 @@ export default class SwapiService {
             population: planet.population,
             rotationPeriod: planet.rotation_period,
             diameter: planet.diameter
-        }
-    }
+        };
+    };
 
     _transformStarship = (starship) => {
         return {
