@@ -6,7 +6,7 @@ const withData = (View, getData ) => {
 
         state = {
             data: null
-        }
+        };
 
         componentDidMount() {
             getData()

@@ -14,12 +14,14 @@ export default class SwapiService {
     };
 
     getPersonImage = ({id}) => {
-        console.log(`${this._imgBase}/characters/${id}.jpg`);
         return `${this._imgBase}/characters/${id}.jpg`
     };
 
+    getPlanetImage = ({id}) => {
+        return `${this._imgBase}/planets/${id}.jpg`
+    };
+
     getStarshipImage = ({id}) => {
-        console.log(`${this._imgBase}/starships/${id}.jpg`);
         return `${this._imgBase}/starships/${id}.jpg`
     };
 
@@ -51,7 +53,7 @@ export default class SwapiService {
         const filmsArray = await this.getResource(`/films/`);
         return filmsArray.results;
     }
-    getFilms = async (id) => {
+    getFilm = async (id) => {
         return this.getResource(`/films/${id}`);
     }
     getAllSpecies = async () => {

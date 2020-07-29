@@ -32,7 +32,7 @@ export default class ItemDetails extends Component {
     }
 
     updateItem() {
-        const { itemId, getData, getImage } = this.props;
+        const { itemId, getData, getImageUrl } = this.props;
         if (!itemId) {
             return;
         }
@@ -41,7 +41,7 @@ export default class ItemDetails extends Component {
             .then((item) => {
                 this.setState({
                     item,
-                    image: getImage(item)
+                    image: getImageUrl(item)
                 });
             });
     };
@@ -60,7 +60,7 @@ export default class ItemDetails extends Component {
                      alt="character"/>
 
                 <div className="card-body">
-                    <h4>{name}</h4>
+                    <h4>{name} </h4>
                     <ul className="list-group list-group-flush">
                         {
                             React.Children.map(this.props.children, (child) => {
