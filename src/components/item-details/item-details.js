@@ -49,15 +49,15 @@ export default class ItemDetails extends Component {
     render() {
         const { item, image } = this.state;
         if (!item) {
-            return <Spinner />
+            return <span>Select a item from a list</span>;
         }
         const { name } = item;
 
         return (
-            <div className="person-details card">
-                <img className="person-image"
+            <div className="item-details card">
+                <img className="item-image"
                      src={ image }
-                     alt="character"/>
+                     alt="item"/>
 
                 <div className="card-body">
                     <h4>{name} </h4>
