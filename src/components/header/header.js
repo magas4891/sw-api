@@ -22,10 +22,13 @@ const Header = () => {
                     <Link to="/starships/">Starships</Link>
                 </li>
                 <li>
-                    <Link to="/login">Login</Link>
+                    <Link to="/films/">Films</Link>
                 </li>
                 <li>
-                    <Link to="/secret">Secret</Link>
+                    <Link to="/vehicles/">Vehicles</Link>
+                </li>
+                <li>
+                    <Link to="/species/">Species</Link>
                 </li>
             </ul>
         </div>

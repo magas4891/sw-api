@@ -8,22 +8,25 @@ import {
     PeoplePage,
     PlanetsPage,
     StarshipsPage,
-    LoginPage,
-    SecretPage } from '../pages';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+    MainPage,
+    FilmPage
+} from '../pages';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import './app.css';
 import StarshipDetails from "../sw-components/starship-details";
+import VehiclesPage from "../pages/vehicles-page";
+import SpeciesPage from "../pages/spacies-page";
 
 export default class App extends Component {
 
     state = {
-        isLoggedIn: true
+        isLoggedIn: false
     }
 
     onLogin = () => {
-        this.setState({
-            isLoggedIn: true
+        this.setState((prev) => {
+            return {isLoggedIn: !prev.isLoggedIn}
         });
     }
 
@@ -37,30 +40,25 @@ export default class App extends Component {
                         <div className="stardb-app">
                             <Header />
                             <RandomPlanet />
-                            <Route path="/"
-                                   render={() => <h2>Welcome to StarWars DB</h2>}
-                                   exact />
-                            <Route path="/people/:id?" component={PeoplePage} />
-                            <Route path="/planets" component={PlanetsPage} />
-                            <Route path="/starships"
-                                   component={StarshipsPage}
-                                   exact/>
-                            <Route path="/starships/:id"
-                                   render={({ match }) => {
-                                       const { id } = match.params;
-                                       return <StarshipDetails itemId={ id } />
-                                   }}/>
-                            <Route
-                                path="/login"
-                                render={() => (
-                                    <LoginPage isLoggedIn={this.state.isLoggedIn}
-                                               onClick={this.onLogin} />
-                                    )} />
-                            <Route
-                                path="/secret"
-                                render={() => (
-                                    <SecretPage isLoggedIn={false} />
-                                )} />
+                            <Switch>
+                                <Route path="/"
+                                       component={MainPage}
+                                       exact />
+                                <Route path="/people/:id?" component={PeoplePage} />
+                                <Route path="/planets" component={PlanetsPage} />
+                                <Route path="/starships"
+                                       component={StarshipsPage}
+                                       exact/>
+                                <Route path="/starships/:id"
+                                       render={({ match }) => {
+                                           const { id } = match.params;
+                                           return <StarshipDetails itemId={ id } />
+                                       }}/>
+                                <Route path="/films/:id?" component={FilmPage} />
+                                <Route path="/vehicles/:id?" component={VehiclesPage} />
+                                <Route path="/species/:id?" component={SpeciesPage} />
+                                <Route render={() => <h2>Page not found</h2>} />
+                            </Switch>
                         </div>
                     </Router>
                 </SwapiServiceProvider>

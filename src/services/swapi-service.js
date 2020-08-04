@@ -25,6 +25,18 @@ export default class SwapiService {
         return `${this._imgBase}/starships/${id}.jpg`
     };
 
+    getFilmImage = ({id}) => {
+        return `${this._imgBase}/films/${id}.jpg`
+    }
+
+    getVehicleImage = ({id}) => {
+        return `${this._imgBase}/vehicles/${id}.jpg`
+    }
+
+    getSpecieImage = ({id}) => {
+        return `${this._imgBase}/species/${id}.jpg`
+    }
+
     getAllPeople = async () => {
         const res = await this.getResource(`/people/`);
         return res.results.map(this._transformPerson);
@@ -51,24 +63,27 @@ export default class SwapiService {
     };
     getAllFilms = async () => {
         const filmsArray = await this.getResource(`/films/`);
-        return filmsArray.results;
+        return filmsArray.results.map(this._tranformFilm);
     }
     getFilm = async (id) => {
-        return this.getResource(`/films/${id}`);
+        const film = await this.getResource(`/films/${id}/`);
+        return this._tranformFilm(film);
     }
     getAllSpecies = async () => {
         const speciesArray = await this.getResource(`/species/`);
-        return speciesArray.results;
+        return speciesArray.results.map(this._transformSpecie);
     }
     getSpecie = async (id) => {
-        return this.getResource(`/species/${id}`);
+        const specie = await this.getResource(`/species/${id}`);
+        return this._transformSpecie(specie);
     }
     getAllVehicles = async () => {
         const vehiclesArray = await this.getResource(`/vehicles/`);
-        return vehiclesArray.results;
+        return vehiclesArray.results.map(this._transformVehicle);
     }
     getVehicle = async (id) => {
-        return this.getResourse(`/vehicles/${id}`);
+        const vehicle = await this.getResource(`/vehicles/${id}/`);
+        return this._transformVehicle(vehicle);
     }
 
     _extractId = (item) => {
@@ -97,7 +112,7 @@ export default class SwapiService {
             crew: starship.crew,
             passengers: starship.passengers,
             cargoCapacity: starship.cargo_capacity
-        }
+        };
     };
 
     _transformPerson = (person) => {
@@ -107,6 +122,39 @@ export default class SwapiService {
             gender: person.gender,
             birthYear: person.birth_year,
             eyeColor: person.eye_color
-        }
-    }
+        };
+    };
+
+    _tranformFilm = (film) => {
+        return {
+            id: this._extractId(film),
+            name: film.title,
+            episodeId: film.episode_id,
+            openingCrawl: film.opening_crawl,
+            director: film.director,
+            producer: film.producer,
+            releaseDate: film.release_date
+        };
+    };
+
+    _transformVehicle = (vehicle) => {
+        return {
+            id: this._extractId(vehicle),
+            name: vehicle.name,
+            model: vehicle.model,
+            vehicleClass: vehicle.vehicle_class,
+            length: vehicle.length,
+            costInCredits: vehicle.cost_in_credits
+        };
+    };
+
+    _transformSpecie = (specie) => {
+        return {
+            id: this._extractId(specie),
+            name: specie.name,
+            classification: specie.classification,
+            designation: specie.designation,
+            eyeColors: specie.eye_colors
+        };
+    };
 }
