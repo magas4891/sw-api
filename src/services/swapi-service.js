@@ -38,7 +38,12 @@ export default class SwapiService {
     }
 
     getAllPeople = async () => {
-        const res = await this.getResource(`/people/`);
+        let res = await this.getResource(`/people/`);
+        for(let people of res.results) {
+            let hw = await this._extractHomeworld(people.homeworld);
+            people.homeworld = hw
+        }
+        console.log(res.results);
         return res.results.map(this._transformPerson);
     };
     getPerson = async (id) => {
@@ -91,13 +96,30 @@ export default class SwapiService {
         return item.url.match(idRegExp)[1];
     };
 
+    tempF = async (url) => {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data['name']
+    }
+
+    _extractHomeworld = async (url) => {
+        return await this.tempF(url)
+    }
+
     _transformPlanet = (planet) => {
         return {
             id: this._extractId(planet),
             name: planet.name,
-            population: planet.population,
             rotationPeriod: planet.rotation_period,
-            diameter: planet.diameter
+            orbitalPeriod: planet.orbital_period,
+            diameter: planet.diameter,
+            climate: planet.climate,
+            gravity: planet.gravity,
+            terrain: planet.terrain,
+            surfaceWater: planet.surface_water,
+            population: planet.population,
+            residents: planet.residents,
+            films: planet.films
         };
     };
 
@@ -109,9 +131,16 @@ export default class SwapiService {
             manufacturer: starship.manufacturer,
             costInCredits: starship.cost_in_credits,
             length: starship.length,
+            maxAtmospheringSpeed: starship.max_atmosphering_speed,
             crew: starship.crew,
             passengers: starship.passengers,
-            cargoCapacity: starship.cargo_capacity
+            cargoCapacity: starship.cargo_capacity,
+            consumables: starship.consumables,
+            hyperdriveRating: starship.hyperdrive_rating,
+            mgtl: starship.MGLT,
+            starshipClass: starship.starship_class,
+            pilots: starship.pilots,
+            films: starship.films
         };
     };
 
@@ -127,9 +156,12 @@ export default class SwapiService {
             mass: person.mass,
             skinColor: person.skin_color,
             homeworld: person.homeworld,
+            // homeworld: await this._extractHomeworld(person.homeworld),
             films: person.films
         };
     };
+
+
 
     _tranformFilm = (film) => {
         return {
@@ -139,7 +171,12 @@ export default class SwapiService {
             openingCrawl: film.opening_crawl,
             director: film.director,
             producer: film.producer,
-            releaseDate: film.release_date
+            releaseDate: film.release_date,
+            characters: film.characters,
+            planets: film.planets,
+            starships: film.starships,
+            vehicles: film.vehicles,
+            species: film.species
         };
     };
 
@@ -148,9 +185,17 @@ export default class SwapiService {
             id: this._extractId(vehicle),
             name: vehicle.name,
             model: vehicle.model,
-            vehicleClass: vehicle.vehicle_class,
+            manufacturer: vehicle.manufacturer,
+            costInCredits: vehicle.cost_in_credits,
             length: vehicle.length,
-            costInCredits: vehicle.cost_in_credits
+            vehicleClass: vehicle.vehicle_class,
+            maxAtmospheringSpeed: vehicle.max_atmosphering_speed,
+            crew: vehicle.crew,
+            passengers: vehicle.passengers,
+            cargoCapacity: vehicle.cargo_capacity,
+            consumables: vehicle.consumables,
+            pilots: vehicle.pilots,
+            films: vehicle.films
         };
     };
 
@@ -160,7 +205,15 @@ export default class SwapiService {
             name: specie.name,
             classification: specie.classification,
             designation: specie.designation,
-            eyeColors: specie.eye_colors
+            averageHeight: specie.average_height,
+            skinColors: specie.skin_colors,
+            hairColors: specie.hair_colors,
+            eyeColors: specie.eye_colors,
+            averageLifespan: specie.average_lifespan,
+            homeworld: specie.homeworld,
+            language: specie.language,
+            people: specie.people,
+            films: specie.films
         };
     };
 }

@@ -6,7 +6,16 @@ const FilmDetails = (props) => {
     return(
         <ItemDetails { ...props } >
             <Record field="name" label="Title" />
+            <Record field="episodeId" label="Episode Id" />
+            <Record field="openingCrawl" label="Opening Crawl" />
             <Record field="director" label="Director" />
+            <Record field="producer" label="Producer" />
+            <Record field="releaseDate" label="Release Date" />
+            <Record field="characters" label="Characters" />
+            <Record field="planets" label="Planets" />
+            <Record field="starships" label="Starships" />
+            <Record field="vehicles" label="Vehicles" />
+            <Record field="species" label="Species" />
         </ItemDetails>
     );
 };

@@ -13,7 +13,7 @@ const PersonDetails = (props) => {
             <Record field="mass" label="Mass" />
             <Record field="skinColor" label="Skin Color" />
             <Record field="homeworld" label="Homeworld" />
-            <Record field="films" label="Films" />
+            {/*<Record field="films" label="Films" />*/}
         </ItemDetails>
     );
 };

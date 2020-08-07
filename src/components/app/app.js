@@ -9,7 +9,7 @@ import {
     PlanetsPage,
     StarshipsPage,
     MainPage,
-    FilmPage
+    FilmPage, TestPage
 } from '../pages';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -57,6 +57,7 @@ export default class App extends Component {
                                 <Route path="/films/:id?" component={FilmPage} />
                                 <Route path="/vehicles/:id?" component={VehiclesPage} />
                                 <Route path="/species/:id?" component={SpeciesPage} />
+                                <Route path="/test/" component={TestPage} />
                                 <Route render={() => <h2>Page not found</h2>} />
                             </Switch>
                         </div>
